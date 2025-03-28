@@ -1,5 +1,8 @@
+# Specific routes
 /blog/* /blog/:splat 200
 /services/* /services/:splat 200
 /contact/* /contact/:splat 200
 /about/* /about/:splat 200
-/* /index.html 200! 
+
+# For pages that don't exist, serve the 404 page
+/* /404.html 404 
