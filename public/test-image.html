@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .image-container {
+            width: 80%;
+            margin: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hero Image Test</h1>
+    <div class="image-container">
+        <h2>Direct Image Link:</h2>
+        <img src="/hero.JPEG" alt="Hero Image Test" />
+    </div>
+    
+    <div class="image-container">
+        <h2>Image with Background (CSS):</h2>
+        <div style="height: 300px; background-image: url('/hero.JPEG'); background-size: cover; background-position: center;"></div>
+    </div>
+</body>
+</html> 

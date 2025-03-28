@@ -19,11 +19,7 @@ const { title = 'Holloway Roofing | Professional Roofing Services in Cambridge',
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col">
-		<header class="bg-slate-800 text-white py-4 shadow-md">
-			<div class="container mx-auto px-4">
-				<slot name="header" />
-			</div>
-		</header>
+		<slot name="header" />
 		
 		<main class="flex-grow">
 			<slot />
