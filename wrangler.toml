@@ -1,0 +1,12 @@
+name = "holloway-roofing"
+compatibility_date = "2025-03-28"
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"
+upload.format = "directory"
+
+[env.production]
+workers_dev = true 

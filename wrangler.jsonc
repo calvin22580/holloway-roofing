@@ -1,0 +1,10 @@
+{
+  "name": "holloway-roofing",
+  "compatibility_date": "2025-03-28",
+  "assets": {
+    "directory": "./dist"
+  },
+  "build": {
+    "command": "npm run build"
+  }
+} 
