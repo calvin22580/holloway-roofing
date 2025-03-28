@@ -6,7 +6,7 @@ export async function GET(context) {
   return rss({
     title: 'Holloway Roofing | Blog',
     description: 'Expert roofing advice, tips, and insights for Cambridge homeowners and businesses. Learn about flat roofing, repairs, and maintenance from Holloway Roofing.',
-    site: context.site,
+    site: 'https://hollowayroofing.com',
     items: blog.map((post) => ({
       title: post.data.title,
       pubDate: post.data.pubDate,
