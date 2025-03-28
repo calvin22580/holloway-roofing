@@ -1,5 +1,16 @@
 {
   "version": 1,
-  "include": ["/*"],
-  "exclude": []
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/_assets/*"
+  ],
+  "routes": [
+    { "src": "/blog/.*", "dest": "/blog/$0" },
+    { "src": "/services/.*", "dest": "/services/$0" },
+    { "src": "/contact/.*", "dest": "/contact/$0" },
+    { "src": "/about/.*", "dest": "/about/$0" },
+    { "src": "^(?!.*\\.).*$", "dest": "/index.html" }
+  ]
 } 

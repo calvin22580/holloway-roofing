@@ -1,8 +1,0 @@
-# Specific routes
-/blog/* /blog/:splat 200
-/services/* /services/:splat 200
-/contact/* /contact/:splat 200
-/about/* /about/:splat 200
-
-# Fallback for single page app
-/* /index.html 200 
