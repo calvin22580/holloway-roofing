@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/main.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CTASection from '../components/CTASection.astro';
+
+const services = [
+  {
+    id: 'flat-roofing',
+    title: 'Flat Roofing',
+    description: 'Expert installation and repair of flat roofs using high-quality materials for long-lasting protection.',
+    details: [
+      'EPDM rubber roofing - Durable and weather-resistant single-ply membrane',
+      'GRP fiberglass roofing - Seamless and highly durable option',
+      'Felt roofing - Traditional and cost-effective solution',
+      'PVC and TPO membrane systems - Modern, energy-efficient options',
+      'Built-up roofing (BUR) - Multi-layer protection for commercial properties'
+    ],
+    image: '/placeholder-profile.jpg'
+  },
+  {
+    id: 'roof-repairs',
+    title: 'Roof Repairs',
+    description: 'Comprehensive repair services for all types of roofs to fix leaks, damage, and prevent future problems.',
+    details: [
+      'Leak detection and repair',
+      'Damaged tile or slate replacement',
+      'Flashing repair and replacement',
+      'Gutter and downpipe repairs',
+      'Roof structure repairs',
+      'Storm damage assessment and repair',
+      'Emergency repair services'
+    ],
+    image: '/placeholder-profile.jpg'
+  },
+  {
+    id: 'commercial-roofing',
+    title: 'Commercial Roofing',
+    description: 'Specialized roofing solutions for commercial buildings with minimal disruption to your business operations.',
+    details: [
+      'Commercial flat roof installation and repair',
+      'Industrial roofing solutions',
+      'Large-scale roofing projects',
+      'Office building roof maintenance',
+      'Warehouse and factory roofing',
+      'Retail property roofing solutions',
+      'School and public building roofing'
+    ],
+    image: '/placeholder-profile.jpg'
+  },
+  {
+    id: 'roof-inspections',
+    title: 'Roof Inspections',
+    description: 'Detailed roof assessments to identify current and potential issues with comprehensive reports and recommendations.',
+    details: [
+      'Complete roof condition surveys',
+      'Pre-purchase roof inspections',
+      'Preventative maintenance inspections',
+      'Insurance claim inspections',
+      'Detailed written reports with photographic evidence',
+      'Expert recommendations for necessary repairs or maintenance'
+    ],
+    image: '/placeholder-profile.jpg'
+  }
+];
+---
+
+<Layout 
+  title="Roofing Services | Holloway Roofing Cambridge"
+  description="Expert flat roofing, repairs, and commercial roofing services in Cambridge. Holloway Roofing provides professional roofing solutions for all needs."
+>
+  <Header slot="header" />
+  
+  <div class="bg-slate-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+          Our Roofing Services
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg text-gray-600 mx-auto">
+          Professional roofing solutions tailored to your specific needs. We serve both residential and commercial clients throughout Cambridge.
+        </p>
+      </div>
+      
+      <div class="mt-16 space-y-16">
+        {services.map((service, index) => (
+          <div id={service.id} class={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8`}>
+            <div class="lg:w-1/2">
+              <div class="bg-slate-300 h-64 rounded-lg"></div>
+            </div>
+            <div class="lg:w-1/2">
+              <h2 class="text-2xl font-bold text-slate-800">{service.title}</h2>
+              <p class="mt-4 text-lg text-gray-600">{service.description}</p>
+              
+              <div class="mt-6">
+                <h3 class="text-lg font-medium text-slate-700">What We Offer:</h3>
+                <ul class="mt-2 space-y-2">
+                  {service.details.map(detail => (
+                    <li class="flex items-start">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span class="text-gray-600">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div class="mt-8">
+                <a href="/contact" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600">
+                  Get a Free Quote
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+          Why Choose Us
+        </h2>
+        <p class="mt-4 max-w-2xl text-lg text-gray-600 mx-auto">
+          When you choose Holloway Roofing for your roofing needs, you're choosing quality, reliability, and expertise.
+        </p>
+      </div>
+      
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-slate-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-medium text-slate-800 text-center">Quality Guaranteed</h3>
+          <p class="mt-3 text-base text-gray-600 text-center">
+            We use only the highest quality materials and employ skilled craftsmen to ensure your roof will last for years to come.
+          </p>
+        </div>
+        
+        <div class="bg-slate-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-medium text-slate-800 text-center">Prompt & Reliable</h3>
+          <p class="mt-3 text-base text-gray-600 text-center">
+            We understand that roofing issues need prompt attention. Our team is known for reliability and meeting project timelines.
+          </p>
+        </div>
+        
+        <div class="bg-slate-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-medium text-slate-800 text-center">Experienced Team</h3>
+          <p class="mt-3 text-base text-gray-600 text-center">
+            Our team brings over 20 years of combined experience to every project, ensuring professional results every time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <CTASection />
+  
+  <Footer slot="footer" />
+</Layout> 

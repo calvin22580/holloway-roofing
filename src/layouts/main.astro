@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-const { content } = Astro.props;
+const { title = 'Holloway Roofing | Professional Roofing Services in Cambridge', description = 'Expert flat roofing, repairs, and commercial roofing services in Cambridge and surrounding areas. Local, trusted, and fully insured roofers.' } = Astro.props;
 ---
 
 <html lang="en">
@@ -8,9 +8,31 @@ const { content } = Astro.props;
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{content.title}</title>
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="keywords" content="flat roofing cambridge, roof repairs cambridge, commercial roofing, residential roofing, local roofers" />
+		<meta name="author" content="Holloway Roofing" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_GB" />
+		<title>{title}</title>
 	</head>
-	<body>
-		<slot />
+	<body class="min-h-screen flex flex-col">
+		<header class="bg-slate-800 text-white py-4 shadow-md">
+			<div class="container mx-auto px-4">
+				<slot name="header" />
+			</div>
+		</header>
+		
+		<main class="flex-grow">
+			<slot />
+		</main>
+		
+		<footer class="bg-slate-900 text-gray-200 py-8">
+			<div class="container mx-auto px-4">
+				<slot name="footer" />
+			</div>
+		</footer>
 	</body>
 </html>

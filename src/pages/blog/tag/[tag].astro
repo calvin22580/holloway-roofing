@@ -1,0 +1,119 @@
+---
+import Layout from '../../../layouts/main.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+// Generate static paths for all tags
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  
+  // Get all unique tags from posts
+  const allTags = [...new Set(blogPosts.flatMap(post => post.data.tags))];
+  
+  return allTags.map(tag => {
+    // Filter posts that have this tag
+    const filteredPosts = blogPosts.filter(post => 
+      post.data.tags.includes(tag)
+    ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    
+    return {
+      params: { tag },
+      props: { posts: filteredPosts, tag },
+    };
+  });
+}
+
+const { posts, tag } = Astro.props;
+
+// Format date function
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<Layout 
+  title={`${tag.charAt(0).toUpperCase() + tag.slice(1)} Roofing Articles | Holloway Roofing`}
+  description={`Expert roofing advice and tips about ${tag} for Cambridge homeowners and businesses. Learn about flat roofing, repairs, and maintenance from Holloway Roofing.`}
+>
+  <Header slot="header" />
+  
+  <div class="bg-slate-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center mb-8">
+        <a href="/blog" class="text-orange-500 hover:text-orange-600 mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+        <a href="/blog" class="text-orange-500 hover:text-orange-600">Back to Blog</a>
+      </div>
+      
+      <div class="text-center mb-12">
+        <span class="inline-block bg-orange-100 text-orange-800 rounded-full px-4 py-1 text-sm font-semibold mb-4">
+          #{tag}
+        </span>
+        <h1 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+          {tag.charAt(0).toUpperCase() + tag.slice(1)} Articles
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg text-gray-600 mx-auto">
+          Browse our collection of articles about {tag} to help you understand your roofing options.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+        {posts.map(post => (
+          <div class="flex flex-col h-full group">
+            <a href={`/blog/${post.slug}`} class="block mb-4 overflow-hidden rounded-lg">
+              {post.data.image ? (
+                <img 
+                  src={post.data.image} 
+                  alt={post.data.title} 
+                  class="h-48 w-full object-cover transition-transform group-hover:scale-105"
+                />
+              ) : (
+                <div class="h-48 w-full bg-slate-200"></div>
+              )}
+            </a>
+            <div class="flex-grow flex flex-col">
+              <div class="flex-grow">
+                <div class="flex flex-wrap mb-2">
+                  {post.data.tags.map(t => (
+                    <a 
+                      href={`/blog/tag/${t}`} 
+                      class={`text-xs font-semibold mr-2 ${t === tag ? 'text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full' : 'text-orange-600'}`}
+                    >
+                      #{t}
+                    </a>
+                  ))}
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">
+                  <a href={`/blog/${post.slug}`} class="hover:text-orange-500">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-gray-600 line-clamp-3 mb-4">{post.data.description}</p>
+              </div>
+              <div class="flex justify-between items-center mt-auto text-sm text-gray-500">
+                <span>{formatDate(post.data.pubDate)}</span>
+                <span>By {post.data.author}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {posts.length === 0 && (
+        <div class="text-center py-16">
+          <p class="text-lg text-gray-600">No articles found with this tag. Check back soon!</p>
+        </div>
+      )}
+    </div>
+  </div>
+  
+  <Footer slot="footer" />
+</Layout> 

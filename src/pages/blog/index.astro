@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/main.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts and sort by date
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Featured posts
+const featuredPosts = sortedPosts.filter(post => post.data.featured);
+
+// Format date function
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+// Get unique tags from all posts
+const allTags = [...new Set(sortedPosts.flatMap(post => post.data.tags))];
+---
+
+<Layout 
+  title="Roofing Blog | Holloway Roofing Cambridge"
+  description="Expert roofing advice, tips, and insights for Cambridge homeowners and businesses. Learn about flat roofing, repairs, and maintenance from Holloway Roofing."
+>
+  <Header slot="header" />
+  
+  <div class="bg-slate-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+          Roofing Insights & Advice
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg text-gray-600 mx-auto">
+          Expert tips, industry news, and local roofing insights for Cambridge homeowners and businesses.
+        </p>
+        <div class="mt-4 flex justify-center">
+          <a href="/rss.xml" class="text-orange-500 hover:text-orange-600 flex items-center text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 8.373 11.627 3 5 3z" />
+              <path d="M4 9a1 1 0 011-1 7 7 0 017 7 1 1 0 11-2 0 5 5 0 00-5-5 1 1 0 01-1-1zM3 15a2 2 0 114 0 2 2 0 01-4 0z" />
+            </svg>
+            Subscribe via RSS
+          </a>
+        </div>
+      </div>
+      
+      {featuredPosts.length > 0 && (
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-slate-800 mb-6">Featured Articles</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredPosts.slice(0, 3).map(post => (
+              <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full transition-transform hover:scale-[1.02]">
+                {post.data.image ? (
+                  <img 
+                    src={post.data.image} 
+                    alt={post.data.title} 
+                    class="h-48 w-full object-cover"
+                  />
+                ) : (
+                  <div class="h-48 w-full bg-slate-300"></div>
+                )}
+                <div class="p-6 flex-grow flex flex-col">
+                  <div class="flex-grow">
+                    <div class="flex flex-wrap mb-2">
+                      {post.data.tags.slice(0, 2).map(tag => (
+                        <a href={`/blog/tag/${tag}`} class="text-xs font-semibold text-orange-600 mr-2">
+                          #{tag}
+                        </a>
+                      ))}
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">
+                      <a href={`/blog/${post.slug}`} class="hover:text-orange-500">
+                        {post.data.title}
+                      </a>
+                    </h3>
+                    <p class="text-gray-600 mb-4">{post.data.description}</p>
+                  </div>
+                  <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
+                    <span>{formatDate(post.data.pubDate)}</span>
+                    <a href={`/blog/${post.slug}`} class="text-orange-500 hover:text-orange-600 font-medium flex items-center">
+                      Read more
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      <div class="mt-16">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-slate-800">Latest Articles</h2>
+          <div class="relative">
+            <select id="tagFilter" class="bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+              <option value="">Filter by Topic</option>
+              {allTags.map(tag => (
+                <option value={tag}>{tag}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+          {sortedPosts.map(post => (
+            <div class="flex flex-col h-full group">
+              <a href={`/blog/${post.slug}`} class="block mb-4 overflow-hidden rounded-lg">
+                {post.data.image ? (
+                  <img 
+                    src={post.data.image} 
+                    alt={post.data.title} 
+                    class="h-48 w-full object-cover transition-transform group-hover:scale-105"
+                  />
+                ) : (
+                  <div class="h-48 w-full bg-slate-200"></div>
+                )}
+              </a>
+              <div class="flex-grow flex flex-col">
+                <div class="flex-grow">
+                  <div class="flex flex-wrap mb-2">
+                    {post.data.tags.slice(0, 3).map(tag => (
+                      <a href={`/blog/tag/${tag}`} class="text-xs font-semibold text-orange-600 mr-2">
+                        #{tag}
+                      </a>
+                    ))}
+                  </div>
+                  <h3 class="text-lg font-bold text-slate-800 mb-2">
+                    <a href={`/blog/${post.slug}`} class="hover:text-orange-500">
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  <p class="text-gray-600 line-clamp-3 mb-4">{post.data.description}</p>
+                </div>
+                <div class="flex justify-between items-center mt-auto text-sm text-gray-500">
+                  <span>{formatDate(post.data.pubDate)}</span>
+                  <span>By {post.data.author}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Pagination placeholder - will implement in future -->
+        <div class="mt-12 flex justify-center">
+          <button disabled class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-2">
+            Previous
+          </button>
+          <span class="px-4 py-2 border border-orange-500 rounded-md bg-orange-500 text-white text-sm font-medium">1</span>
+          <button disabled class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 ml-2">
+            Next
+          </button>
+        </div>
+      </div>
+      
+      <div class="mt-16 bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-slate-800 mb-4">Subscribe to Our Newsletter</h2>
+        <p class="text-gray-600 mb-6">Get the latest roofing tips and advice delivered straight to your inbox.</p>
+        <form class="flex flex-col sm:flex-row gap-4">
+          <input 
+            type="email" 
+            placeholder="Your email address" 
+            class="flex-grow px-4 py-3 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
+            required
+          />
+          <button 
+            type="submit"
+            class="bg-orange-500 text-white px-6 py-3 rounded-md font-medium hover:bg-orange-600 transition-colors"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+  
+  <script>
+    // Basic tag filter functionality
+    document.getElementById('tagFilter')?.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      const selectedTag = target.value;
+      
+      if (selectedTag) {
+        window.location.href = `/blog/tag/${selectedTag}`;
+      }
+    });
+  </script>
+</Layout> 

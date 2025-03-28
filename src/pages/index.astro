@@ -2,24 +2,285 @@
 import '../styles/global.css';
 // Component Imports
 import Button from '../components/Button.astro';
+import Layout from '../layouts/main.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ServiceSection from '../components/ServiceSection.astro';
+import TestimonialSection from '../components/TestimonialSection.astro';
+import CTASection from '../components/CTASection.astro';
+
+// Structured data for LocalBusiness
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "RoofingContractor",
+  "name": "Holloway Roofing",
+  "image": "https://www.hollowayroofing.co.uk/logo.jpg",
+  "@id": "https://www.hollowayroofing.co.uk/",
+  "url": "https://www.hollowayroofing.co.uk/",
+  "telephone": "01223123456",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Main Street",
+    "addressLocality": "Cambridge",
+    "postalCode": "CB1 1AA",
+    "addressCountry": "GB"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 52.2053,
+    "longitude": 0.1218
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "09:00",
+      "closes": "14:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/hollowayroofing",
+    "https://twitter.com/hollowayroofing",
+    "https://www.instagram.com/hollowayroofing"
+  ],
+  "priceRange": "££",
+  "servesCuisine": "Roofing Services",
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.2053,
+      "longitude": 0.1218
+    },
+    "geoRadius": "30000"
+  }
+};
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/basics/astro-components/
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
-
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
-</html>
+<Layout 
+  title="Holloway Roofing | Professional Flat Roofing Services in Cambridge"
+  description="Expert flat roofing, repairs, and commercial roofing services in Cambridge and surrounding areas. Local, trusted, and fully insured roofers."
+>
+  <Header slot="header" />
+  
+  <Hero />
+  
+  <ServiceSection />
+  
+  <div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
+        <div>
+          <h2 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+            Why Choose Holloway Roofing?
+          </h2>
+          <p class="mt-3 max-w-3xl text-lg text-gray-600">
+            With over 20 years of experience in the roofing industry, we've built a reputation for quality workmanship and exceptional service in Cambridge and surrounding areas.
+          </p>
+          
+          <div class="mt-8 space-y-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-medium text-slate-800">Fully Licensed & Insured</h3>
+                <p class="mt-2 text-base text-gray-600">We carry comprehensive insurance coverage and all necessary licenses for roofing work in Cambridge.</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-medium text-slate-800">Quality Materials</h3>
+                <p class="mt-2 text-base text-gray-600">We use only high-quality, durable materials from trusted suppliers to ensure long-lasting results.</p>
+              </div>
+            </div>
+            
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-medium text-slate-800">Experienced Team</h3>
+                <p class="mt-2 text-base text-gray-600">Our skilled roofers have decades of combined experience in all aspects of roofing services.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-8 lg:mt-0">
+          <div class="relative rounded-lg overflow-hidden">
+            <!-- Replace with actual image when available -->
+            <div class="h-64 bg-slate-300 w-full"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black opacity-20"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <TestimonialSection />
+  
+  <CTASection />
+  
+  <!-- Service Areas Section -->
+  <div class="bg-slate-50 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-6">
+        <h2 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">
+          Areas We Service
+        </h2>
+        <p class="mt-2 max-w-2xl mx-auto text-lg text-gray-600">
+          Providing quality roofing services throughout Cambridge and surrounding areas
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+          <!-- Cambridge City -->
+          <div class="p-4">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+              </svg>
+              Cambridge City
+            </h3>
+            <div class="text-sm grid grid-cols-1 gap-y-1">
+              <span class="text-slate-700">Cambridge</span>
+              <span class="text-slate-700">Chesterton</span>
+              <span class="text-slate-700">Arbury</span>
+              <span class="text-slate-700">Cherry Hinton</span>
+              <span class="text-slate-700">Trumpington</span>
+              <span class="text-slate-700">Newnham</span>
+              <span class="text-slate-700">King's Hedges</span>
+              <span class="text-slate-700">Petersfield</span>
+              <span class="text-slate-700">Romsey</span>
+              <span class="text-slate-700">Abbey</span>
+              <span class="text-slate-700">Barnwell</span>
+            </div>
+          </div>
+          
+          <!-- North of Cambridge -->
+          <div class="p-4">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+              North
+            </h3>
+            <div class="text-sm grid grid-cols-1 gap-y-1">
+              <span class="text-slate-700">Milton</span>
+              <span class="text-slate-700">Histon</span>
+              <span class="text-slate-700">Impington</span>
+              <span class="text-slate-700">Girton</span>
+              <span class="text-slate-700">Oakington</span>
+              <span class="text-slate-700">Cottenham</span>
+              <span class="text-slate-700">Waterbeach</span>
+              <span class="text-slate-700">Landbeach</span>
+              <span class="text-slate-700">Horningsea</span>
+              <span class="text-slate-700">Fen Ditton</span>
+            </div>
+          </div>
+          
+          <!-- East of Cambridge -->
+          <div class="p-4">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              East
+            </h3>
+            <div class="text-sm grid grid-cols-1 gap-y-1">
+              <span class="text-slate-700">Teversham</span>
+              <span class="text-slate-700">Fulbourn</span>
+              <span class="text-slate-700">Bottisham</span>
+              <span class="text-slate-700">Great Wilbraham</span>
+              <span class="text-slate-700">Little Wilbraham</span>
+              <span class="text-slate-700">Stow cum Quy</span>
+              <span class="text-slate-700">Six Mile Bottom</span>
+            </div>
+          </div>
+          
+          <!-- South of Cambridge -->
+          <div class="p-4">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              South
+            </h3>
+            <div class="text-sm grid grid-cols-1 gap-y-1">
+              <span class="text-slate-700">Great Shelford</span>
+              <span class="text-slate-700">Little Shelford</span>
+              <span class="text-slate-700">Stapleford</span>
+              <span class="text-slate-700">Sawston</span>
+              <span class="text-slate-700">Whittlesford</span>
+              <span class="text-slate-700">Duxford</span>
+              <span class="text-slate-700">Abington</span>
+              <span class="text-slate-700">Linton</span>
+              <span class="text-slate-700">Grantchester</span>
+            </div>
+          </div>
+          
+          <!-- West of Cambridge -->
+          <div class="p-4">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M14.707 7.707a1 1 0 00-1.414-1.414L11 8.586V3a1 1 0 10-2 0v5.586L6.707 6.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              West
+            </h3>
+            <div class="text-sm grid grid-cols-1 gap-y-1">
+              <span class="text-slate-700">Barton</span>
+              <span class="text-slate-700">Comberton</span>
+              <span class="text-slate-700">Toft</span>
+              <span class="text-slate-700">Hardwick</span>
+              <span class="text-slate-700">Coton</span>
+              <span class="text-slate-700">Madingley</span>
+              <span class="text-slate-700">Dry Drayton</span>
+              <span class="text-slate-700">Bar Hill</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-3 bg-gray-50 border-t border-gray-100 text-center">
+          <a href="/service-areas" class="inline-flex items-center text-sm text-orange-500 hover:text-orange-600 font-medium">
+            View our complete coverage map
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <Footer slot="footer" />
+  
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+</Layout>

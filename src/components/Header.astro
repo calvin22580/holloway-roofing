@@ -1,0 +1,40 @@
+<div class="flex justify-between items-center">
+  <div class="flex items-center space-x-2">
+    <div class="text-2xl font-bold">Holloway Roofing</div>
+  </div>
+  
+  <nav class="hidden md:flex space-x-8">
+    <a href="/" class="hover:text-orange-400 transition-colors">Home</a>
+    <a href="/services" class="hover:text-orange-400 transition-colors">Services</a>
+    <a href="/projects" class="hover:text-orange-400 transition-colors">Projects</a>
+    <a href="/about" class="hover:text-orange-400 transition-colors">About Us</a>
+    <a href="/blog" class="hover:text-orange-400 transition-colors">Blog</a>
+    <a href="/contact" class="hover:text-orange-400 transition-colors">Contact</a>
+  </nav>
+  
+  <div class="md:hidden">
+    <button id="menu-toggle" class="text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div id="mobile-menu" class="hidden md:hidden pt-4">
+  <div class="flex flex-col space-y-3">
+    <a href="/" class="hover:text-orange-400 transition-colors">Home</a>
+    <a href="/services" class="hover:text-orange-400 transition-colors">Services</a>
+    <a href="/projects" class="hover:text-orange-400 transition-colors">Projects</a>
+    <a href="/about" class="hover:text-orange-400 transition-colors">About Us</a>
+    <a href="/blog" class="hover:text-orange-400 transition-colors">Blog</a>
+    <a href="/contact" class="hover:text-orange-400 transition-colors">Contact</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById('menu-toggle')?.addEventListener('click', () => {
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script> 

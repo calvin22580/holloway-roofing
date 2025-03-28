@@ -1,0 +1,191 @@
+---
+import Layout from './main.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, image, tags, author } = post.data;
+
+// Format date
+const formattedPubDate = new Date(pubDate).toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Format tags for structured data
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  'headline': title,
+  'description': description,
+  'image': image ? `https://www.hollowayroofing.co.uk${image}` : 'https://www.hollowayroofing.co.uk/default-blog-image.jpg',
+  'author': {
+    '@type': 'Person',
+    'name': author
+  },
+  'publisher': {
+    '@type': 'Organization',
+    'name': 'Holloway Roofing',
+    'logo': {
+      '@type': 'ImageObject',
+      'url': 'https://www.hollowayroofing.co.uk/logo.jpg'
+    }
+  },
+  'datePublished': pubDate.toISOString(),
+  'dateModified': updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': Astro.url.href
+  },
+  'keywords': tags.join(', ')
+};
+---
+
+<Layout title={`${title} | Holloway Roofing Blog`} description={description}>
+  <Header slot="header" />
+  
+  <div class="bg-slate-50 py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Tags -->
+      <div class="mb-6 flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <a href={`/blog/tag/${tag}`} class="inline-block bg-slate-200 hover:bg-slate-300 rounded-full px-3 py-1 text-sm font-medium text-slate-700 transition-colors">
+            #{tag}
+          </a>
+        ))}
+      </div>
+      
+      <!-- Title -->
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight mb-6 leading-tight">
+        {title}
+      </h1>
+      
+      <!-- Meta info -->
+      <div class="flex flex-wrap items-center text-gray-600 text-sm mb-8 gap-4 border-b border-gray-200 pb-6">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>{formattedPubDate}</span>
+        </div>
+        
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span>By {author}</span>
+        </div>
+        
+        {updatedDate && (
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>Updated: {new Date(updatedDate).toLocaleDateString('en-GB')}</span>
+          </div>
+        )}
+        
+        <div class="flex items-center ml-auto">
+          <span class="text-sm text-gray-500">
+            {Math.ceil(description.split(' ').length / 200)} min read
+          </span>
+        </div>
+      </div>
+      
+      <!-- Featured image -->
+      {image && (
+        <div class="mb-10 rounded-xl overflow-hidden shadow-lg">
+          <img src={image} alt={title} class="w-full h-auto object-cover" />
+        </div>
+      )}
+      
+      <!-- Table of contents placeholder - can be implemented later -->
+      <div class="hidden lg:block bg-white rounded-lg shadow-sm p-6 mb-8 sticky top-6">
+        <h3 class="text-lg font-medium text-slate-800 mb-3">Table of Contents</h3>
+        <div class="text-sm">
+          <!-- This would be dynamically generated based on headings -->
+          <p class="text-gray-500 italic">Coming soon...</p>
+        </div>
+      </div>
+      
+      <!-- Article content -->
+      <article class="prose prose-slate lg:prose-lg max-w-none prose-headings:font-bold prose-headings:text-slate-800 prose-p:text-gray-700 prose-a:text-orange-600 prose-a:no-underline hover:prose-a:text-orange-500 prose-img:rounded-lg prose-img:shadow-md mb-12">
+        <slot />
+      </article>
+      
+      <!-- Author bio -->
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-10 border-l-4 border-orange-500">
+        <div class="flex items-start">
+          <div class="flex-shrink-0 mr-4">
+            <div class="h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xl">
+              {author.split(' ')[0][0]}{author.split(' ')[1]?.[0] || ''}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-medium text-slate-800">{author}</h3>
+            <p class="text-gray-600 mt-1">Roofing expert with over 20 years of experience working with residential and commercial properties in Cambridge.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Social sharing -->
+      <div class="border-t border-gray-200 pt-8 mb-10">
+        <h3 class="text-xl font-bold text-slate-800 mb-4">Share this article</h3>
+        <div class="flex space-x-4">
+          <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="bg-[#1DA1F2] text-white p-2 rounded-full hover:bg-opacity-90 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+            </svg>
+          </a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="bg-[#4267B2] text-white p-2 rounded-full hover:bg-opacity-90 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+            </svg>
+          </a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="bg-[#0A66C2] text-white p-2 rounded-full hover:bg-opacity-90 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+            </svg>
+          </a>
+          <a href={`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${Astro.url.href}`)}`} class="bg-gray-600 text-white p-2 rounded-full hover:bg-opacity-90 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Related posts placeholder -->
+      <div class="border-t border-gray-200 pt-10">
+        <h3 class="text-xl font-bold text-slate-800 mb-6">Related Articles</h3>
+        <p class="text-gray-500 italic">More articles coming soon...</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- CTA section -->
+  <div class="bg-slate-800 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">Need Professional Roofing Help in Cambridge?</h2>
+      <p class="text-slate-300 mb-8 max-w-2xl mx-auto">Our team of experts provides high-quality roofing solutions tailored to your specific needs. Get in touch for a free consultation.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/contact" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-md font-medium transition-colors">
+          Get a Free Quote
+        </a>
+        <a href="/services" class="bg-white hover:bg-gray-100 text-slate-800 px-6 py-3 rounded-md font-medium transition-colors">
+          Explore Our Services
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <Footer slot="footer" />
+  
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)}></script>
+</Layout> 
